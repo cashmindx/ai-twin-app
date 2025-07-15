@@ -1,0 +1,6 @@
+body {
+  scroll-behavior: smooth;
+}
+input, textarea {
+  outline: none;
+}
