@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Twin - Talking Avatar Generator</title>
+  <title>AI Twin – Cinematic Avatar Generator</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const voiceSelect = document.getElementById("voiceSelect");
       const customVoiceSection = document.getElementById("customVoiceSection");
+      const voicePreview = document.getElementById("voicePreview");
       const form = document.getElementById("aiTwinForm");
       const loading = document.getElementById("loading");
       const resultSection = document.getElementById("resultSection");
@@ -17,6 +19,12 @@
 
       voiceSelect.addEventListener("change", () => {
         customVoiceSection.classList.toggle("hidden", voiceSelect.value !== "upload");
+        if (voiceSelect.value !== "upload") {
+          voicePreview.src = `assets/voices/${voiceSelect.value}.mp3`;
+          voicePreview.classList.remove("hidden");
+        } else {
+          voicePreview.classList.add("hidden");
+        }
       });
 
       form.addEventListener("submit", async (e) => {
@@ -24,9 +32,8 @@
         loading.classList.remove("hidden");
         resultSection.classList.add("hidden");
 
-        // Simulate backend call
         setTimeout(() => {
-          const videoUrl = "https://yourdomain.com/videos/generated123.mp4"; // Replace with actual backend response
+          const videoUrl = "https://yourdomain.com/videos/generated123.mp4";
           aiVideo.src = videoUrl;
           downloadBtn.href = videoUrl;
           loading.classList.add("hidden");
@@ -38,21 +45,17 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-black to-gray-800">
 
-  <h1 class="text-4xl font-extrabold mb-10 text-center tracking-wide text-green-400 animate-pulse">
-    ⚡ AI Twin - Talking Avatar Generator ⚡
-  </h1>
-
-  <!-- Welcome Video Placeholder -->
-  <section class="mb-10 w-full max-w-md text-center">
-    <video autoplay muted loop playsinline class="mx-auto rounded-lg shadow-lg max-w-full" style="max-height:400px;">
+  <!-- Hero Intro -->
+  <section class="mb-10 w-full max-w-3xl text-center">
+    <video autoplay muted loop playsinline class="mx-auto rounded-xl shadow-2xl max-w-full" style="max-height:400px;">
       <source src="assets/welcome.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
     </video>
-    <p class="mt-4 text-green-400 font-semibold">🎬 Meet Your AI Twin – Ready to Talk!</p>
+    <h1 class="text-5xl font-extrabold mt-6 text-green-400 tracking-wide animate-pulse">Meet Your AI Twin</h1>
+    <p class="mt-2 text-gray-300 text-lg">Upload your voice and face. Let your digital self speak.</p>
   </section>
 
   <!-- Form Section -->
-  <form id="aiTwinForm" class="w-full max-w-md space-y-6 bg-gray-800 p-6 rounded-xl shadow-2xl border border-green-500">
+  <form id="aiTwinForm" class="w-full max-w-md space-y-6 bg-gray-800 bg-opacity-60 p-6 rounded-xl shadow-2xl border border-green-500 backdrop-blur-md">
     <div>
       <label for="photoInput" class="block mb-2 font-semibold">📸 Upload Your Face Photo</label>
       <input type="file" id="photoInput" accept="image/*" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
@@ -72,6 +75,8 @@
         <option value="upload">🎙️ Upload My Own Voice</option>
       </select>
     </div>
+
+    <audio id="voicePreview" controls class="hidden w-full mt-2 rounded-lg shadow-md"></audio>
 
     <div id="customVoiceSection" class="hidden">
       <label for="customVoice" class="block mb-2 font-semibold">🎤 Upload Your Voice</label>
