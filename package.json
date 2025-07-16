@@ -1,13 +1,9 @@
 {
-  "name": "ai-twin-wow",
+  "name": "ai-twin-app",
   "version": "1.0.0",
   "description": "AI Twin – Cinematic Avatar Generator",
   "main": "index.html",
-  "scripts": {
-    "start": "live-server"
-  },
-  "author": "Herbert",
-  "license": "MIT",
+  "scripts": {},
   "dependencies": {
     "node-fetch": "^3.4.0"
   }
