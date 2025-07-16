@@ -37,35 +37,14 @@
       <select id="voiceSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
         <option value="en_us_001">🧑 US Male</option>
         <option value="en_us_002">👩 US Female</option>
-        <option value="af_female">🇿🇦 African Female</option>
-        <option value="uk_male">🇬🇧 UK Male</option>
-        <option value="sci_fi_bot">🤖 Sci-Fi Bot</option>
-        <option value="upload">🎙️ Upload My Own Voice</option>
+        <option value="en_uk_001">🇬🇧 UK Male</option>
+        <option value="en_au_001">🇦🇺 AU Female</option>
       </select>
-    </div>
-
-    <audio id="voicePreview" controls class="hidden w-full mt-2 rounded-lg shadow-md"></audio>
-
-    <div id="waveform" class="hidden mt-2 flex justify-center gap-1">
-      <div class="w-1 h-6 bg-green-400 animate-pulse"></div>
-      <div class="w-1 h-4 bg-green-400 animate-pulse delay-100"></div>
-      <div class="w-1 h-5 bg-green-400 animate-pulse delay-200"></div>
-      <div class="w-1 h-3 bg-green-400 animate-pulse delay-300"></div>
-    </div>
-
-    <div id="customVoiceSection" class="hidden">
-      <label for="customVoice" class="block mb-2 font-semibold">🎤 Upload Your Voice</label>
-      <input type="file" id="customVoice" accept="audio/*" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
     </div>
 
     <div>
-      <label for="genreSelect" class="block mb-2 font-semibold">🎞️ Choose a Genre</label>
-      <select id="genreSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
-        <option value="default">🎬 Default</option>
-        <option value="courtroom">⚖️ Courtroom Drama</option>
-        <option value="sci-fi">🚀 Sci-Fi Thriller</option>
-        <option value="noir">🕵️ Noir Mystery</option>
-      </select>
+      <label for="imageUrlInput" class="block mb-2 font-semibold">🌐 Public Image URL (Imgur, Cloudinary)</label>
+      <input type="url" id="imageUrlInput" placeholder="https://i.imgur.com/yourImage.jpg" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
     </div>
 
     <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded font-semibold text-lg transition transform hover:scale-105">
@@ -89,63 +68,47 @@
   <!-- Script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const voiceSelect = document.getElementById("voiceSelect");
-      const customVoiceSection = document.getElementById("customVoiceSection");
-      const voicePreview = document.getElementById("voicePreview");
-      const waveform = document.getElementById("waveform");
-      const genreSelect = document.getElementById("genreSelect");
       const form = document.getElementById("aiTwinForm");
+      const scriptInput = document.getElementById("scriptInput");
+      const voiceSelect = document.getElementById("voiceSelect");
+      const imageUrlInput = document.getElementById("imageUrlInput");
       const loading = document.getElementById("loading");
       const resultSection = document.getElementById("resultSection");
       const aiVideo = document.getElementById("aiVideo");
       const downloadBtn = document.getElementById("downloadBtn");
-
-      voiceSelect.addEventListener("change", () => {
-        const selectedVoice = voiceSelect.value;
-
-        if (selectedVoice === "upload") {
-          customVoiceSection.classList.remove("hidden");
-          voicePreview.classList.add("hidden");
-          waveform.classList.add("hidden");
-          voicePreview.src = "";
-        } else {
-          customVoiceSection.classList.add("hidden");
-          voicePreview.src = `assets/voices/${selectedVoice}.mp3`;
-          voicePreview.classList.remove("hidden");
-        }
-      });
-
-      genreSelect.addEventListener("change", () => {
-        document.body.className = ""; // Reset
-        const selectedGenre = genreSelect.value;
-        if (selectedGenre !== "default") {
-          document.body.classList.add(selectedGenre);
-        }
-      });
-
-      voicePreview.addEventListener("play", () => {
-        waveform.classList.remove("hidden");
-      });
-      voicePreview.addEventListener("pause", () => {
-        waveform.classList.add("hidden");
-      });
-      voicePreview.addEventListener("ended", () => {
-        waveform.classList.add("hidden");
-      });
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         loading.classList.remove("hidden");
         resultSection.classList.add("hidden");
 
-        // Simulate backend call
-        setTimeout(() => {
-          const videoUrl = "https://yourdomain.com/videos/generated123.mp4"; // Replace with actual backend response
-          aiVideo.src = videoUrl;
-          downloadBtn.href = videoUrl;
+        try {
+          const response = await fetch("/.netlify/functions/generate-video", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              script: scriptInput.value,
+              imageUrl: imageUrlInput.value,
+              voiceId: voiceSelect.value
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.video_url) {
+            aiVideo.src = result.video_url;
+            downloadBtn.href = result.video_url;
+            loading.classList.add("hidden");
+            resultSection.classList.remove("hidden");
+          } else {
+            alert("Video generation failed. Please check your inputs.");
+            loading.classList.add("hidden");
+          }
+        } catch (error) {
+          console.error("Error generating video:", error);
+          alert("Something went wrong. Please try again later.");
           loading.classList.add("hidden");
-          resultSection.classList.remove("hidden");
-        }, 3000);
+        }
       });
     });
   </script>
