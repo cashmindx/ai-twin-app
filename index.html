@@ -40,16 +40,21 @@
     <h2 class="text-xl font-bold mb-4 text-center">Create Your AI Twin</h2>
     <form id="aiTwinForm" class="space-y-4">
       <div>
-        <label>Upload Your Face Photo</label>
+        <label class="block mb-1">Upload Your Face Photo</label>
         <input type="file" id="photoInput" accept="image/*" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
       </div>
       <div>
-        <label>Your Message</label>
+        <label class="block mb-1">Your Message</label>
         <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI version!" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded"></textarea>
       </div>
       <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">🎬 Generate Video</button>
     </form>
-    <div id="loading" class="text-yellow-300 mt-4 hidden">Generating your 4K twin...</div>
+
+    <!-- Optional Preview (if you later enable it in JS) -->
+    <!-- <img id="previewImage" src="assets/placeholder.png" alt="Preview" class="mt-4 w-full rounded-xl hidden"> -->
+
+    <div id="loading" class="text-yellow-300 mt-4 hidden">⏳ Generating your 4K twin...</div>
+
     <div id="resultSection" class="mt-4 hidden">
       <video id="aiVideo" controls class="w-full rounded mb-2"></video>
       <a id="downloadBtn" href="#" download="AI_Twin.mp4" class="block text-center bg-blue-600 hover:bg-blue-700 py-2 rounded">⬇ Download Video</a>
@@ -94,6 +99,7 @@
     const resultSection = document.getElementById("resultSection");
     const aiVideo = document.getElementById("aiVideo");
     const downloadBtn = document.getElementById("downloadBtn");
+    // const previewImage = document.getElementById("previewImage"); // Optional preview
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -106,12 +112,14 @@
       const reader = new FileReader();
       reader.onload = async () => {
         const base64Image = reader.result.split(',')[1];
+
         try {
           const res = await fetch("/.netlify/functions/generate-video", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ image: base64Image, script })
           });
+
           const data = await res.json();
           if (data.videoUrl) {
             aiVideo.src = data.videoUrl;
@@ -126,9 +134,14 @@
           loading.classList.add("hidden");
         }
       };
+
       reader.readAsDataURL(file);
+
+      // Optional: If you want to preview the uploaded image
+      // const objectURL = URL.createObjectURL(file);
+      // previewImage.src = objectURL;
+      // previewImage.classList.remove("hidden");
     });
   </script>
-
 </body>
 </html>
