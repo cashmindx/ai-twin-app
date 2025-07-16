@@ -9,6 +9,17 @@
 </head>
 <body>
 
+  <!-- Theme & Genre Controls -->
+  <div style="text-align: center; margin-top: 1rem;">
+    <button id="themeToggle">🌗 Toggle Theme</button>
+    <select id="genreSelect">
+      <option value="default">🎬 Default</option>
+      <option value="sci-fi">🚀 Sci-Fi</option>
+      <option value="drama">🎭 Drama</option>
+      <option value="horror">👻 Horror</option>
+    </select>
+  </div>
+
   <!-- Hero Section -->
   <section class="hero">
     <video autoplay muted loop playsinline class="welcome-video">
@@ -24,18 +35,48 @@
     <label for="photoInput">📸 Upload Your Photo</label>
     <input type="file" id="photoInput" accept="image/*" required />
 
-    <label for="voiceInput">🎙️ Upload Your Voice (MP3/WAV)</label>
-    <input type="file" id="voiceInput" accept="audio/*" />
-
     <label for="scriptInput">📝 Your Message</label>
     <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI Twin!" required></textarea>
+
+    <label for="voiceMode">🎙️ Choose Voice Input</label>
+    <select id="voiceMode">
+      <option value="avatar">Use Avatar Voice</option>
+      <option value="upload">Upload Your Voice</option>
+      <option value="record">Record Your Voice</option>
+    </select>
+
+    <!-- Avatar Voice Selection -->
+    <div id="avatarVoiceSection">
+      <label for="avatarVoiceSelect">🧑 Select Avatar Voice</label>
+      <select id="avatarVoiceSelect">
+        <option value="assets/voice1.mp3">US Male</option>
+        <option value="assets/voice2.mp3">US Female</option>
+        <option value="assets/voice3.mp3">UK Male</option>
+        <option value="assets/voice4.mp3">AU Female</option>
+      </select>
+      <button type="button" id="previewAvatarVoice">🔊 Preview</button>
+    </div>
+
+    <!-- Upload Voice -->
+    <div id="uploadVoiceSection" class="hidden">
+      <label for="voiceInput">📤 Upload Your Voice</label>
+      <input type="file" id="voiceInput" accept="audio/*" />
+    </div>
+
+    <!-- Record Voice -->
+    <div id="recordVoiceSection" class="hidden">
+      <button type="button" id="startRecording">🎙️ Start Recording</button>
+      <button type="button" id="stopRecording" disabled>⏹️ Stop</button>
+      <audio id="recordedAudio" controls class="hidden"></audio>
+    </div>
 
     <button type="submit">🎬 Generate Video</button>
   </form>
 
   <!-- Loading Indicator -->
-  <div id="loading" class="hidden loading-text">
-    Generating video... please wait 🎥
+  <div id="loading" class="hidden loading-spinner">
+    <div class="spinner"></div>
+    <p>Generating video... please wait 🎥</p>
   </div>
 
   <!-- Result Section -->
