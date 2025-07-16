@@ -1,134 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-900 text-white">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Twin – Your Talking Digital Clone</title>
-  <link href="styles.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Twin - Talking Avatar Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-900">
 
-  <!-- Hero Section -->
-  <header class="text-center py-12">
-    <img src="assets/logo.png" alt="AI Twin Logo" class="mx-auto w-24 mb-4">
-    <h1 class="text-4xl font-bold">AI Twin</h1>
-    <p class="text-lg mt-2 text-gray-300">Let your AI clone speak, sell, and shine – in 4K.</p>
-    <a href="#generate" class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded text-white font-semibold">Get Started</a>
-  </header>
+  <h1 class="text-3xl font-bold mb-8">AI Twin - Talking Avatar Generator</h1>
 
-  <!-- Welcome Video -->
-  <section class="max-w-3xl mx-auto px-4 mb-10">
-    <video controls autoplay muted class="w-full rounded-xl shadow-xl">
-      <source src="assets/welcome.mp4" type="video/mp4">
-      Your browser does not support video.
-    </video>
-  </section>
-
-  <!-- How It Works -->
-  <section class="max-w-4xl mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-4 text-center">How It Works</h2>
-    <div class="grid md:grid-cols-3 gap-6 text-center">
-      <div><p>📸 Upload Your Face</p></div>
-      <div><p>📝 Enter What You Want to Say</p></div>
-      <div><p>🎬 Generate Your AI Video</p></div>
+  <form id="aiTwinForm" class="w-full max-w-md space-y-6 bg-gray-800 p-6 rounded-lg shadow-lg">
+    <div>
+      <label for="photoInput" class="block mb-2 font-semibold">Upload Your Face Photo</label>
+      <input type="file" id="photoInput" accept="image/*" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
     </div>
-  </section>
 
-  <!-- AI Video Generator -->
-  <section id="generate" class="max-w-md mx-auto px-4 py-10 bg-gray-800 rounded-xl shadow-xl">
-    <h2 class="text-xl font-bold mb-4 text-center">Create Your AI Twin</h2>
-    <form id="aiTwinForm" class="space-y-4">
-      <div>
-        <label class="block mb-1">Upload Your Face Photo</label>
-        <input type="file" id="photoInput" accept="image/*" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
-      </div>
-      <div>
-        <label class="block mb-1">Your Message</label>
-        <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI version!" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded"></textarea>
-      </div>
-      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">🎬 Generate Video</button>
-    </form>
-
-    <div id="loading" class="text-yellow-300 mt-4 hidden">⏳ Generating your 4K twin...</div>
-
-    <div id="resultSection" class="mt-4 hidden">
-      <video id="aiVideo" controls class="w-full rounded mb-2"></video>
-      <a id="downloadBtn" href="#" download="AI_Twin.mp4" class="block text-center bg-blue-600 hover:bg-blue-700 py-2 rounded">⬇ Download Video</a>
+    <div>
+      <label for="scriptInput" class="block mb-2 font-semibold">Your Message</label>
+      <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI version!" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded"></textarea>
     </div>
-  </section>
 
-  <!-- Pricing -->
-  <section class="max-w-4xl mx-auto px-4 py-12 text-center">
-    <h2 class="text-2xl font-bold mb-6">Pricing Plans</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-gray-800 p-6 rounded">
-        <h3 class="text-xl font-semibold">Free</h3>
-        <p class="text-gray-400 mt-2">2 videos · 720p</p>
-        <p class="mt-4 font-bold text-lg">Free</p>
-      </div>
-      <div class="bg-gray-800 p-6 rounded border-2 border-green-500">
-        <h3 class="text-xl font-semibold text-green-400">Pro</h3>
-        <p class="text-gray-400 mt-2">10 videos · 1080p</p>
-        <p class="mt-4 font-bold text-lg">$9</p>
-        <a href="https://pay.yoco.com/your-pro-link" class="mt-3 inline-block bg-green-600 px-4 py-2 rounded text-white">Buy Now</a>
-      </div>
-      <div class="bg-gray-800 p-6 rounded">
-        <h3 class="text-xl font-semibold">Unlimited</h3>
-        <p class="text-gray-400 mt-2">Unlimited · 4K videos</p>
-        <p class="mt-4 font-bold text-lg">$29</p>
-        <a href="https://pay.yoco.com/your-unlimited-link" class="mt-3 inline-block bg-blue-600 px-4 py-2 rounded text-white">Buy Now</a>
-      </div>
+    <div>
+      <label for="voiceSelect" class="block mb-2 font-semibold">Choose a Voice</label>
+      <select id="voiceSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+        <option value="en_us_001">🧑 US Male</option>
+        <option value="en_us_002">👩 US Female</option>
+        <option value="af_female">🇿🇦 African Female</option>
+        <option value="upload">🎙️ Upload My Own Voice</option>
+      </select>
     </div>
-  </section>
 
-  <footer class="text-center py-6 text-gray-500 text-sm">
-    &copy; 2025 AI Twin. Built with love on GitHub + Netlify.
-  </footer>
+    <div id="customVoiceSection" class="hidden">
+      <label for="customVoice" class="block mb-2 font-semibold">Upload Your Voice</label>
+      <input type="file" id="customVoice" accept="audio/*" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
+    </div>
 
-  <script>
-    const form = document.getElementById("aiTwinForm");
-    const photoInput = document.getElementById("photoInput");
-    const scriptInput = document.getElementById("scriptInput");
-    const loading = document.getElementById("loading");
-    const resultSection = document.getElementById("resultSection");
-    const aiVideo = document.getElementById("aiVideo");
-    const downloadBtn = document.getElementById("downloadBtn");
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded font-semibold text-lg">🎬 Generate Video</button>
+  </form>
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      loading.classList.remove("hidden");
-      resultSection.classList.add("hidden");
+  <div id="loading" class="hidden mt-8 text-center text-green-400 font-semibold">Generating video... please wait 🎥</div>
 
-      const file = photoInput.files[0];
-      const script = scriptInput.value;
-      const reader = new FileReader();
-
-      reader.onload = async () => {
-        const base64Image = reader.result.split(',')[1];
-        try {
-          const res = await fetch("/.netlify/functions/generate-video", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: base64Image, script })
-          });
-          const data = await res.json();
-          if (data.videoUrl) {
-            aiVideo.src = data.videoUrl;
-            downloadBtn.href = data.videoUrl;
-            resultSection.classList.remove("hidden");
-          } else {
-            alert("❌ Failed to generate video.");
-          }
-        } catch (err) {
-          alert("⚠️ Error: " + err.message);
-        } finally {
-          loading.classList.add("hidden");
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-  </script>
-</body>
-</html>
+  <section id="resultSection" class="hidden mt-8 w-full max-w-md text-center">
+    <video id="aiVideo" controls class="mx-auto rounded-lg shadow-lg max-w-full" style="max-height:400px;"></video>
+    <br />
+    <a id="downloadBtn" href="#" download
