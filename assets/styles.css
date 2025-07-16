@@ -1,19 +1,61 @@
-body.courtroom {
-  background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
-  font-family: 'Georgia', serif;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, #111827, #000000);
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
 }
 
-body.sci-fi {
-  background: radial-gradient(circle at top, #0f0f0f, #000000);
-  color: #00ffcc;
+h1 {
+  font-size: 2.5rem;
+  color: #10b981;
+  text-align: center;
+  margin-top: 1rem;
+  animation: pulse 2s infinite;
 }
 
-body.noir {
-  background: linear-gradient(to bottom, #111, #000);
-  font-family: 'Courier New', monospace;
-  color: #ccc;
+form {
+  background-color: rgba(31, 41, 55, 0.8);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+  border: 1px solid #10b981;
 }
 
-.backdrop-blur-md {
-  backdrop-filter: blur(10px);
+input, textarea, select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  background-color: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 0.5rem;
+  color: #ffffff;
+}
+
+button {
+  background-color: #10b981;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #059669;
+  transform: scale(1.05);
+}
+
+video {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }
