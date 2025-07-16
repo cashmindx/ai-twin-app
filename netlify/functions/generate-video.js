@@ -1,6 +1,6 @@
 const fetch = require("node-fetch");
 
-exports.handler = async function(event, context) {
+exports.handler = async function(event) {
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -9,89 +9,87 @@ exports.handler = async function(event, context) {
   }
 
   try {
-    const { image, script, voice, audio } = JSON.parse(event.body);
+    const { imageUrl, script, voice, audioUrl } = JSON.parse(event.body);
 
-    if (!image || !script || !voice) {
+    if (!imageUrl || !script) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "Missing required fields" }),
+        body: JSON.stringify({ error: "Missing image or script" }),
       };
     }
 
-    // Prepare API payload based on voice choice
-    let voicePayload;
-
-    if (voice === "upload") {
-      if (!audio) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ error: "Missing uploaded audio for custom voice" }),
-        };
-      }
-      // Custom voice uploaded as base64 audio
-      voicePayload = {
-        type: "custom_audio",
-        audio_base64: audio,
-      };
-    } else {
-      // Preset voice selected
-      voicePayload = {
-        type: "preset",
-        voice_id: voice,
-      };
-    }
-
-    // Build the request body for your AI video API
-    const apiPayload = {
-      source_image: image,
-      script: script,
-      voice: voicePayload,
-      // Other necessary options depending on your API
-      // e.g., output format, resolution, etc.
-    };
-
-    // Replace with your AI video generation API endpoint and key
-    const API_URL = "https://api.d-id.com/talks"; // example endpoint
+    const API_URL = "https://api.d-id.com/talks";
     const API_KEY = process.env.D_ID_API_KEY;
 
-    const apiResponse = await fetch(API_URL, {
+    const payload = {
+      source_url: imageUrl,
+      script: {
+        type: "text",
+        input: script
+      }
+    };
+
+    // Use uploaded voice or preset voice
+    if (voice === "upload" && audioUrl) {
+      payload.driver_url = audioUrl;
+    } else {
+      payload.voice = voice; // e.g., "en_us_001"
+    }
+
+    const res = await fetch(API_URL, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${API_KEY}`,
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(apiPayload),
+      body: JSON.stringify(payload)
     });
 
-    if (!apiResponse.ok) {
-      const errorText = await apiResponse.text();
+    if (!res.ok) {
+      const errText = await res.text();
       return {
-        statusCode: apiResponse.status,
-        body: JSON.stringify({ error: `API error: ${errorText}` }),
+        statusCode: res.status,
+        body: JSON.stringify({ error: "API Error: " + errText }),
       };
     }
 
-    const apiData = await apiResponse.json();
+    const data = await res.json();
 
-    // Extract video URL from API response (adjust according to your API)
-    const videoUrl = apiData.result?.videoUrl || apiData.video_url || apiData.url;
+    const talkId = data.id;
+
+    // Poll the talk status until it's done
+    let videoUrl = null;
+    let retries = 10;
+    while (retries-- > 0) {
+      await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3s
+      const poll = await fetch(`https://api.d-id.com/talks/${talkId}`, {
+        headers: {
+          Authorization: `Bearer ${API_KEY}`
+        }
+      });
+      const pollData = await poll.json();
+      if (pollData?.result_url) {
+        videoUrl = pollData.result_url;
+        break;
+      }
+    }
 
     if (!videoUrl) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: "Video URL missing in API response" }),
+        body: JSON.stringify({ error: "Video generation timeout." }),
       };
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ videoUrl }),
+      body: JSON.stringify({ videoUrl })
     };
 
-  } catch (error) {
+  } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: err.message }),
     };
   }
 };
