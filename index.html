@@ -36,4 +36,76 @@
         loading.classList.remove("hidden");
         resultSection.classList.add("hidden");
 
-        set
+        setTimeout(() => {
+          const videoUrl = "https://yourdomain.com/videos/generated123.mp4";
+          aiVideo.src = videoUrl;
+          downloadBtn.href = videoUrl;
+          loading.classList.add("hidden");
+          resultSection.classList.remove("hidden");
+        }, 3000);
+      });
+    });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-black to-gray-800">
+
+  <!-- Hero Intro -->
+  <section class="mb-10 w-full max-w-3xl text-center">
+    <video autoplay muted loop playsinline class="mx-auto rounded-xl shadow-2xl max-w-full" style="max-height:400px;">
+      <source src="assets/welcome.mp4" type="video/mp4" />
+    </video>
+    <h1 class="text-5xl font-extrabold mt-6 text-green-400 tracking-wide animate-pulse">Meet Your AI Twin</h1>
+    <p class="mt-2 text-gray-300 text-lg">Upload your voice and face. Let your digital self speak.</p>
+  </section>
+
+  <!-- Form Section -->
+  <form id="aiTwinForm" class="w-full max-w-md space-y-6 bg-gray-800 bg-opacity-60 p-6 rounded-xl shadow-2xl border border-green-500 backdrop-blur-md">
+    <div>
+      <label for="photoInput" class="block mb-2 font-semibold">📸 Upload Your Face Photo</label>
+      <input type="file" id="photoInput" accept="image/*" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
+    </div>
+
+    <div>
+      <label for="scriptInput" class="block mb-2 font-semibold">🗣️ Your Message</label>
+      <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI version!" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded"></textarea>
+    </div>
+
+    <div>
+      <label for="voiceSelect" class="block mb-2 font-semibold">🎧 Choose a Voice</label>
+      <select id="voiceSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+        <option value="en_us_001">🧑 US Male</option>
+        <option value="en_us_002">👩 US Female</option>
+        <option value="af_female">🇿🇦 African Female</option>
+        <option value="uk_male">🇬🇧 UK Male</option>
+        <option value="sci_fi_bot">🤖 Sci-Fi Bot</option>
+        <option value="upload">🎙️ Upload My Own Voice</option>
+      </select>
+    </div>
+
+    <audio id="voicePreview" controls class="hidden w-full mt-2 rounded-lg shadow-md"></audio>
+
+    <div id="customVoiceSection" class="hidden">
+      <label for="customVoice" class="block mb-2 font-semibold">🎤 Upload Your Voice</label>
+      <input type="file" id="customVoice" accept="audio/*" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
+    </div>
+
+    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded font-semibold text-lg transition transform hover:scale-105">
+      🎬 Generate Video
+    </button>
+  </form>
+
+  <!-- Loading Indicator -->
+  <div id="loading" class="hidden mt-8 text-center text-green-400 font-semibold animate-pulse">
+    Generating video... please wait 🎥
+  </div>
+
+  <!-- Result Section -->
+  <section id="resultSection" class="hidden mt-8 w-full max-w-md text-center">
+    <video id="aiVideo" controls class="mx-auto rounded-lg shadow-lg max-w-full" style="max-height:400px;"></video>
+    <a id="downloadBtn" href="#" download="ai-twin-video.mp4" class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold transition transform hover:scale-105">
+      ⬇️ Download Video
+    </a>
+  </section>
+
+</body>
+</html>
