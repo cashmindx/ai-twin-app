@@ -1,10 +1,12 @@
 {
   "name": "ai-twin-app",
   "version": "1.0.0",
-  "description": "AI Twin – Cinematic Avatar Generator",
+  "description": "AI Twin App – Cinematic Avatar Generator",
   "main": "index.html",
-  "scripts": {},
+  "scripts": {
+    "start": "live-server"
+  },
   "dependencies": {
-    "node-fetch": "^3.4.0"
+    "node-fetch": "^2.6.7"
   }
 }
