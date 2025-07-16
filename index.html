@@ -6,46 +6,6 @@
   <title>AI Twin – Cinematic Avatar Generator</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const voiceSelect = document.getElementById("voiceSelect");
-      const customVoiceSection = document.getElementById("customVoiceSection");
-      const voicePreview = document.getElementById("voicePreview");
-      const form = document.getElementById("aiTwinForm");
-      const loading = document.getElementById("loading");
-      const resultSection = document.getElementById("resultSection");
-      const aiVideo = document.getElementById("aiVideo");
-      const downloadBtn = document.getElementById("downloadBtn");
-
-      voiceSelect.addEventListener("change", () => {
-        const selectedVoice = voiceSelect.value;
-
-        if (selectedVoice === "upload") {
-          customVoiceSection.classList.remove("hidden");
-          voicePreview.classList.add("hidden");
-          voicePreview.src = "";
-        } else {
-          customVoiceSection.classList.add("hidden");
-          voicePreview.src = `assets/voices/${selectedVoice}.mp3`;
-          voicePreview.classList.remove("hidden");
-        }
-      });
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        loading.classList.remove("hidden");
-        resultSection.classList.add("hidden");
-
-        setTimeout(() => {
-          const videoUrl = "https://yourdomain.com/videos/generated123.mp4";
-          aiVideo.src = videoUrl;
-          downloadBtn.href = videoUrl;
-          loading.classList.add("hidden");
-          resultSection.classList.remove("hidden");
-        }, 3000);
-      });
-    });
-  </script>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-black to-gray-800">
 
@@ -53,6 +13,7 @@
   <section class="mb-10 w-full max-w-3xl text-center">
     <video autoplay muted loop playsinline class="mx-auto rounded-xl shadow-2xl max-w-full" style="max-height:400px;">
       <source src="assets/welcome.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
     </video>
     <h1 class="text-5xl font-extrabold mt-6 text-green-400 tracking-wide animate-pulse">Meet Your AI Twin</h1>
     <p class="mt-2 text-gray-300 text-lg">Upload your voice and face. Let your digital self speak.</p>
@@ -106,6 +67,49 @@
       ⬇️ Download Video
     </a>
   </section>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const voiceSelect = document.getElementById("voiceSelect");
+      const customVoiceSection = document.getElementById("customVoiceSection");
+      const voicePreview = document.getElementById("voicePreview");
+      const form = document.getElementById("aiTwinForm");
+      const loading = document.getElementById("loading");
+      const resultSection = document.getElementById("resultSection");
+      const aiVideo = document.getElementById("aiVideo");
+      const downloadBtn = document.getElementById("downloadBtn");
+
+      voiceSelect.addEventListener("change", () => {
+        const selectedVoice = voiceSelect.value;
+
+        if (selectedVoice === "upload") {
+          customVoiceSection.classList.remove("hidden");
+          voicePreview.classList.add("hidden");
+          voicePreview.src = "";
+        } else {
+          customVoiceSection.classList.add("hidden");
+          voicePreview.src = `assets/voices/${selectedVoice}.mp3`;
+          voicePreview.classList.remove("hidden");
+        }
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loading.classList.remove("hidden");
+        resultSection.classList.add("hidden");
+
+        // Simulate backend call
+        setTimeout(() => {
+          const videoUrl = "https://yourdomain.com/videos/generated123.mp4"; // Replace with actual backend response
+          aiVideo.src = videoUrl;
+          downloadBtn.href = videoUrl;
+          loading.classList.add("hidden");
+          resultSection.classList.remove("hidden");
+        }, 3000);
+      });
+    });
+  </script>
 
 </body>
 </html>
