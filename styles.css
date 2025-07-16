@@ -1,6 +1,6 @@
+/* Optional fallback styling */
 body {
-  scroll-behavior: smooth;
-}
-input, textarea {
-  outline: none;
+  font-family: sans-serif;
+  background-color: #111827;
+  color: white;
 }
