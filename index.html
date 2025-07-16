@@ -1,33 +1,105 @@
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  loading.classList.remove("hidden");
-  resultSection.classList.add("hidden");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Twin App – Cinematic Avatar Generator</title>
+  <meta name="description" content="Generate cinematic talking avatars using your voice and face." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
 
-  try {
-    const response = await fetch("/.netlify/functions/generate-video", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        script: scriptInput.value,
-        imageUrl: imageUrlInput.value,
-        voiceId: voiceSelect.value
-      })
+  <!-- Hero Section -->
+  <section style="text-align: center; margin-top: 2rem;">
+    <video autoplay muted loop playsinline style="max-height: 300px; border-radius: 1rem; box-shadow: 0 0 20px rgba(16,185,129,0.5);">
+      <source src="assets/welcome.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <h1>Welcome to AI Twin App</h1>
+    <p style="color: #ccc;">Upload your voice and face. Let your digital self speak.</p>
+  </section>
+
+  <!-- Form Section -->
+  <form id="aiTwinForm" style="max-width: 500px; margin: 2rem auto;">
+    <label for="scriptInput">🗣️ Your Message</label>
+    <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI version!" required></textarea>
+
+    <label for="voiceSelect">🎧 Choose a Voice</label>
+    <select id="voiceSelect">
+      <option value="en_us_001">🧑 US Male</option>
+      <option value="en_us_002">👩 US Female</option>
+      <option value="en_uk_001">🇬🇧 UK Male</option>
+      <option value="en_au_001">🇦🇺 AU Female</option>
+    </select>
+
+    <label for="imageUrlInput">🌐 Public Image URL</label>
+    <input type="url" id="imageUrlInput" placeholder="https://i.imgur.com/yourImage.jpg" required />
+
+    <button type="submit">🎬 Generate Video</button>
+  </form>
+
+  <!-- Loading Indicator -->
+  <div id="loading" class="hidden" style="text-align: center; color: #10b981; font-weight: bold;">
+    Generating video... please wait 🎥
+  </div>
+
+  <!-- Result Section -->
+  <section id="resultSection" class="hidden" style="text-align: center; margin-top: 2rem;">
+    <video id="aiVideo" controls></video>
+    <br />
+    <a id="downloadBtn" href="#" download="ai-twin-video.mp4">
+      ⬇️ Download Video
+    </a>
+  </section>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("aiTwinForm");
+      const scriptInput = document.getElementById("scriptInput");
+      const voiceSelect = document.getElementById("voiceSelect");
+      const imageUrlInput = document.getElementById("imageUrlInput");
+      const loading = document.getElementById("loading");
+      const resultSection = document.getElementById("resultSection");
+      const aiVideo = document.getElementById("aiVideo");
+      const downloadBtn = document.getElementById("downloadBtn");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loading.classList.remove("hidden");
+        resultSection.classList.add("hidden");
+
+        try {
+          const response = await fetch("/.netlify/functions/generate-video", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              script: scriptInput.value,
+              imageUrl: imageUrlInput.value,
+              voiceId: voiceSelect.value
+            })
+          });
+
+          const result = await response.json();
+          console.log("Server response:", result);
+
+          if (result.video_url) {
+            aiVideo.src = result.video_url;
+            downloadBtn.href = result.video_url;
+            loading.classList.add("hidden");
+            resultSection.classList.remove("hidden");
+          } else {
+            alert("Video generation failed. Please check your inputs.");
+            loading.classList.add("hidden");
+          }
+        } catch (error) {
+          console.error("Error generating video:", error);
+          alert("Something went wrong. Please try again later.");
+          loading.classList.add("hidden");
+        }
+      });
     });
+  </script>
 
-    const result = await response.json();
-
-    if (result.video_url) {
-      aiVideo.src = result.video_url;
-      downloadBtn.href = result.video_url;
-      loading.classList.add("hidden");
-      resultSection.classList.remove("hidden");
-    } else {
-      alert("Video generation failed. Please check your inputs.");
-      loading.classList.add("hidden");
-    }
-  } catch (error) {
-    console.error("Error generating video:", error);
-    alert("Something went wrong. Please try again later.");
-    loading.classList.add("hidden");
-  }
-});
+</body>
+</html>
