@@ -1,29 +1,15 @@
-# AI Twin App
+# AI Twin – Cinematic Avatar Generator
 
-This is a web app that allows users to upload their face, type a message, and generate a talking AI video clone using the D-ID API.
+Create a digital version of yourself with voice, face, and personality. Built with HTML, Tailwind CSS, and JavaScript. Deployable on Netlify.
 
 ## Features
+- Cinematic welcome video
 - Upload face photo
-- Type a message
-- Generate talking video clone in 720p, 1080p, or 4K
-- Tiered pricing with Yoco links
-- Hosted on GitHub + Netlify
+- Choose or upload voice
+- Voice preview player
+- Custom script input
+- Simulated video generation
+- Downloadable video preview
 
 ## Deployment
-Push this to GitHub and connect to Netlify. Make sure your `.env` or function securely contains your D-ID API key.
-
-## Folder Structure
-```
-.
-├── assets/
-│   ├── logo.png
-│   ├── placeholder.png
-│   └── welcome.mp4
-├── netlify/
-│   └── functions/
-│       └── generate-video.js
-├── index.html
-├── styles.css
-├── netlify.toml
-└── README.md
-```
+Push to GitHub and connect to Netlify. No build command required.
