@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Twin – Cinematic Avatar Generator</title>
+  <title>AI Twin App – Cinematic Avatar Generator</title>
+  <meta name="description" content="AI Twin App lets you upload your voice and face to generate cinematic avatars and videos." />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
@@ -15,7 +16,7 @@
       <source src="assets/welcome.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    <h1 class="text-5xl font-extrabold mt-6 text-green-400 tracking-wide animate-pulse">Meet Your AI Twin</h1>
+    <h1 class="text-5xl font-extrabold mt-6 text-green-400 tracking-wide animate-pulse">Welcome to AI Twin App</h1>
     <p class="mt-2 text-gray-300 text-lg">Upload your voice and face. Let your digital self speak.</p>
   </section>
 
@@ -45,9 +46,26 @@
 
     <audio id="voicePreview" controls class="hidden w-full mt-2 rounded-lg shadow-md"></audio>
 
+    <div id="waveform" class="hidden mt-2 flex justify-center gap-1">
+      <div class="w-1 h-6 bg-green-400 animate-pulse"></div>
+      <div class="w-1 h-4 bg-green-400 animate-pulse delay-100"></div>
+      <div class="w-1 h-5 bg-green-400 animate-pulse delay-200"></div>
+      <div class="w-1 h-3 bg-green-400 animate-pulse delay-300"></div>
+    </div>
+
     <div id="customVoiceSection" class="hidden">
       <label for="customVoice" class="block mb-2 font-semibold">🎤 Upload Your Voice</label>
       <input type="file" id="customVoice" accept="audio/*" class="w-full p-2 bg-gray-700 border border-gray-600 rounded" />
+    </div>
+
+    <div>
+      <label for="genreSelect" class="block mb-2 font-semibold">🎞️ Choose a Genre</label>
+      <select id="genreSelect" class="w-full p-2 bg-gray-700 border border-gray-600 rounded">
+        <option value="default">🎬 Default</option>
+        <option value="courtroom">⚖️ Courtroom Drama</option>
+        <option value="sci-fi">🚀 Sci-Fi Thriller</option>
+        <option value="noir">🕵️ Noir Mystery</option>
+      </select>
     </div>
 
     <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded font-semibold text-lg transition transform hover:scale-105">
@@ -74,6 +92,8 @@
       const voiceSelect = document.getElementById("voiceSelect");
       const customVoiceSection = document.getElementById("customVoiceSection");
       const voicePreview = document.getElementById("voicePreview");
+      const waveform = document.getElementById("waveform");
+      const genreSelect = document.getElementById("genreSelect");
       const form = document.getElementById("aiTwinForm");
       const loading = document.getElementById("loading");
       const resultSection = document.getElementById("resultSection");
@@ -86,12 +106,31 @@
         if (selectedVoice === "upload") {
           customVoiceSection.classList.remove("hidden");
           voicePreview.classList.add("hidden");
+          waveform.classList.add("hidden");
           voicePreview.src = "";
         } else {
           customVoiceSection.classList.add("hidden");
           voicePreview.src = `assets/voices/${selectedVoice}.mp3`;
           voicePreview.classList.remove("hidden");
         }
+      });
+
+      genreSelect.addEventListener("change", () => {
+        document.body.className = ""; // Reset
+        const selectedGenre = genreSelect.value;
+        if (selectedGenre !== "default") {
+          document.body.classList.add(selectedGenre);
+        }
+      });
+
+      voicePreview.addEventListener("play", () => {
+        waveform.classList.remove("hidden");
+      });
+      voicePreview.addEventListener("pause", () => {
+        waveform.classList.add("hidden");
+      });
+      voicePreview.addEventListener("ended", () => {
+        waveform.classList.add("hidden");
       });
 
       form.addEventListener("submit", async (e) => {
