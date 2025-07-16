@@ -1,3 +1,4 @@
+/* Base styles */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(to bottom right, #111827, #000000);
@@ -6,23 +7,51 @@ body {
   padding: 0;
 }
 
+/* Hero section */
+.hero {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.welcome-video {
+  max-height: 300px;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
 h1 {
   font-size: 2.5rem;
   color: #10b981;
-  text-align: center;
   margin-top: 1rem;
   animation: pulse 2s infinite;
 }
 
-form {
+p {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* Form section */
+.form-container {
+  max-width: 500px;
+  margin: 2rem auto;
   background-color: rgba(31, 41, 55, 0.8);
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
   border: 1px solid #10b981;
 }
 
-input, textarea, select {
+label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+input,
+textarea,
+select {
   width: 100%;
   padding: 0.75rem;
   margin-top: 0.5rem;
@@ -30,17 +59,24 @@ input, textarea, select {
   border: 1px solid #374151;
   border-radius: 0.5rem;
   color: #ffffff;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
 }
 
 button {
   background-color: #10b981;
   color: white;
   padding: 0.75rem;
+  margin-top: 1.5rem;
   border: none;
   border-radius: 0.5rem;
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 button:hover {
@@ -48,12 +84,46 @@ button:hover {
   transform: scale(1.05);
 }
 
-video {
+/* Loading text */
+.loading-text {
+  text-align: center;
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Result section */
+.result-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.result-video {
   max-width: 100%;
   border-radius: 0.75rem;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
+.download-btn {
+  display: inline-block;
+  background-color: #10b981;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #059669;
+  transform: scale(1.05);
+}
+
+/* Animations */
 @keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.6; }
