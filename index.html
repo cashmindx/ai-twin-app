@@ -50,9 +50,6 @@
       <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">🎬 Generate Video</button>
     </form>
 
-    <!-- Optional Preview (if you later enable it in JS) -->
-    <!-- <img id="previewImage" src="assets/placeholder.png" alt="Preview" class="mt-4 w-full rounded-xl hidden"> -->
-
     <div id="loading" class="text-yellow-300 mt-4 hidden">⏳ Generating your 4K twin...</div>
 
     <div id="resultSection" class="mt-4 hidden">
@@ -85,12 +82,10 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="text-center py-6 text-gray-500 text-sm">
     &copy; 2025 AI Twin. Built with love on GitHub + Netlify.
   </footer>
 
-  <!-- Script -->
   <script>
     const form = document.getElementById("aiTwinForm");
     const photoInput = document.getElementById("photoInput");
@@ -99,7 +94,6 @@
     const resultSection = document.getElementById("resultSection");
     const aiVideo = document.getElementById("aiVideo");
     const downloadBtn = document.getElementById("downloadBtn");
-    // const previewImage = document.getElementById("previewImage"); // Optional preview
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -108,18 +102,16 @@
 
       const file = photoInput.files[0];
       const script = scriptInput.value;
-
       const reader = new FileReader();
+
       reader.onload = async () => {
         const base64Image = reader.result.split(',')[1];
-
         try {
           const res = await fetch("/.netlify/functions/generate-video", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ image: base64Image, script })
           });
-
           const data = await res.json();
           if (data.videoUrl) {
             aiVideo.src = data.videoUrl;
@@ -136,11 +128,6 @@
       };
 
       reader.readAsDataURL(file);
-
-      // Optional: If you want to preview the uploaded image
-      // const objectURL = URL.createObjectURL(file);
-      // previewImage.src = objectURL;
-      // previewImage.classList.remove("hidden");
     });
   </script>
 </body>
