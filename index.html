@@ -42,6 +42,16 @@
     ⚡ AI Twin - Talking Avatar Generator ⚡
   </h1>
 
+  <!-- Welcome Video Placeholder -->
+  <section class="mb-10 w-full max-w-md text-center">
+    <video autoplay muted loop playsinline class="mx-auto rounded-lg shadow-lg max-w-full" style="max-height:400px;">
+      <source src="assets/welcome.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <p class="mt-4 text-green-400 font-semibold">🎬 Meet Your AI Twin – Ready to Talk!</p>
+  </section>
+
+  <!-- Form Section -->
   <form id="aiTwinForm" class="w-full max-w-md space-y-6 bg-gray-800 p-6 rounded-xl shadow-2xl border border-green-500">
     <div>
       <label for="photoInput" class="block mb-2 font-semibold">📸 Upload Your Face Photo</label>
@@ -73,10 +83,12 @@
     </button>
   </form>
 
+  <!-- Loading Indicator -->
   <div id="loading" class="hidden mt-8 text-center text-green-400 font-semibold animate-pulse">
     Generating video... please wait 🎥
   </div>
 
+  <!-- Result Section -->
   <section id="resultSection" class="hidden mt-8 w-full max-w-md text-center">
     <video id="aiVideo" controls class="mx-auto rounded-lg shadow-lg max-w-full" style="max-height:400px;"></video>
     <a id="downloadBtn" href="#" download="ai-twin-video.mp4" class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold transition transform hover:scale-105">
