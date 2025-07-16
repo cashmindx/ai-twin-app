@@ -4,16 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI Twin App – Cinematic Avatar Generator</title>
+  <meta name="description" content="Generate cinematic talking avatars using your voice and face." />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
 
-  <section style="text-align: center; margin-top: 2rem;">
+  <!-- Hero Section -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="welcome-video">
+      <source src="assets/welcome.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
     <h1>🎬 AI Twin App</h1>
     <p>Upload your photo, voice, and message. Let your avatar speak.</p>
   </section>
 
-  <form id="aiTwinForm" style="max-width: 500px; margin: 2rem auto;">
+  <!-- Form Section -->
+  <form id="aiTwinForm" class="form-container">
     <label for="photoInput">📸 Upload Your Photo</label>
     <input type="file" id="photoInput" accept="image/*" required />
 
@@ -23,19 +30,25 @@
     <label for="scriptInput">📝 Your Message</label>
     <textarea id="scriptInput" rows="4" placeholder="Hi, I’m your AI Twin!" required></textarea>
 
-    <button type="submit">Generate Video</button>
+    <button type="submit">🎬 Generate Video</button>
   </form>
 
-  <div id="loading" class="hidden" style="text-align: center; color: #10b981; font-weight: bold;">
+  <!-- Loading Indicator -->
+  <div id="loading" class="hidden loading-text">
     Generating video... please wait 🎥
   </div>
 
-  <section id="resultSection" class="hidden" style="text-align: center; margin-top: 2rem;">
-    <video id="aiVideo" controls></video>
+  <!-- Result Section -->
+  <section id="resultSection" class="hidden result-container">
+    <video id="aiVideo" controls class="result-video"></video>
     <br />
-    <a id="downloadBtn" href="#" download="ai-twin-video.mp4">⬇️ Download Video</a>
+    <a id="downloadBtn" href="#" download="ai-twin-video.mp4" class="download-btn">
+      ⬇️ Download Video
+    </a>
   </section>
 
+  <!-- External JavaScript -->
   <script src="assets/app.js"></script>
+
 </body>
 </html>
