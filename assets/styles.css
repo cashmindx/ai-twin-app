@@ -1,0 +1,21 @@
+/* Custom cinematic styles */
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h1 {
+  text-shadow: 0 0 15px #22c55e;
+}
+
+video {
+  border: 2px solid #22c55e;
+}
+
+button:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(10px);
+}
